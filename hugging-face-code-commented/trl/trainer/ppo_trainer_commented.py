@@ -727,6 +727,7 @@ class PPOTrainer(BaseTrainer):
             # The masks indicate which log probabilities to use (exclude query tokens and padding tokens)
             # all_logprobs: (Batch_Size, Seq_Len - 1) where Seq_Len is the maximum length of a query+response
             # values: (Batch_Size, Seq_Len - 1), masks: (Batch_Size, Seq_Len - 1)
+            # the length is seqlen - 1 since we remove the last output
             all_logprobs, logits_or_none, values, masks = self.batched_forward_pass(
                 self.model,
                 queries,

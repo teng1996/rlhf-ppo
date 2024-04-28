@@ -1,3 +1,5 @@
+import os
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com' # huggingface 换源
 import torch
 from tqdm import tqdm
 
