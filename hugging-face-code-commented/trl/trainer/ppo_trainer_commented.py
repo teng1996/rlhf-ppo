@@ -1258,6 +1258,7 @@ class PPOTrainer(BaseTrainer):
         )
 
         # Loss for the value head
+        # return 是更精准的估计。虽然v和q有区别，但是V = E(Q(s, a))。这里是通过对Q进行采样来不断更新V
         vf_losses1 = (vpreds - returns) ** 2 # This is the loss according to the formula in the slides. (V(s) - Q(s, a))^2
         vf_losses2 = (vpredclipped - returns) ** 2
         vf_loss = 0.5 * masked_mean(torch.max(vf_losses1, vf_losses2), mask)
