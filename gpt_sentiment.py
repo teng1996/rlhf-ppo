@@ -51,11 +51,11 @@ if __name__ == '__main__':
         batch_size=32,
         mini_batch_size=4,
         gradient_accumulation_steps=8,
-        log_with="wandb",
+        # log_with="wandb",
     )
 
-    import wandb
-    wandb.init()
+    # import wandb
+    # wandb.init()
 
     dataset = build_dataset(config)
 

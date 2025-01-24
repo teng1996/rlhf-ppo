@@ -834,6 +834,9 @@ class PPOTrainer(BaseTrainer):
                         model_inputs = {k: mini_batch_dict[k] for k in model_inputs_names}
                         
                         # Calculate the logprobs, logits and values of the online model (new policy)
+                        # logprobs: used to calculate the policy gradient loss(with the old policy logprobs)
+                        # vpreds: used to calculate the value loss
+                        # logits: used to calculate the kl regularization loss
                         logprobs, logits, vpreds, _ = self.batched_forward_pass(
                             self.model,
                             mini_batch_dict["queries"],
