@@ -740,6 +740,14 @@ class PPOTrainer(BaseTrainer):
             with self.optional_peft_ctx():
                 # Get the log probabilities also w.r.t the reference model (frozen model)
                 ref_logprobs, ref_logits_or_none, _, _ = self.batched_forward_pass(
+                    # PEFT模型的特殊性在于它只训练少量参数(adapter)
+                    # 当禁用adapter层时,PEFT模型就相当于原始的基础模型
+                    # 所以对PEFT模型,我们不需要维护单独的参考模型,直接禁用adapter就可以得到等效的参考模型
+                    # 这样可以节省内存,因为不需要加载两份完整的模型
+                    # 简单来说:
+                    # 普通模型: 需要两个完整的模型(当前模型和参考模型)
+                    # PEFT模型: 只需要一个模型,通过开关adapter来切换角色
+
                     self.model if self.is_peft_model else self.ref_model,
                     queries,
                     responses,
